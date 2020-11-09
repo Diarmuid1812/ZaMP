@@ -1,0 +1,4 @@
+<map id="Interp4Fly::GetCmdName" name="Interp4Fly::GetCmdName">
+<area shape="rect" id="node1" title="Wyświetla nazwę polecenia." alt="" coords="192,5,360,32"/>
+<area shape="rect" id="node2" href="$class_interp4_fly.html#a7e2b647c0a3f921bc225ecdb7fd4c5a6" title="Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)" alt="" coords="5,5,144,32"/>
+</map>

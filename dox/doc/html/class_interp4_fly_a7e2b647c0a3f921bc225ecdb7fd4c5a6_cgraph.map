@@ -1,0 +1,4 @@
+<map id="Interp4Fly::PrintCmd" name="Interp4Fly::PrintCmd">
+<area shape="rect" id="node1" title="Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)" alt="" coords="5,5,144,32"/>
+<area shape="rect" id="node2" href="$class_interp4_fly.html#a576210f46f384a7ba171b0af59f3194a" title="Wyświetla nazwę polecenia." alt="" coords="192,5,360,32"/>
+</map>
