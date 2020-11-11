@@ -2,47 +2,49 @@
 #define  INTERP4COMMAND_HH
 
 #include <iostream>
-#include "DronPose.hh"
-#include "Visualization.hh"
+#include "MobileObj.hh"
 
 /*!
  * \file
  * \brief Definicja klasy Interp4Command
  *
- * Plik zawiera definicję klasy Interp4Command ...
+ * Plik zawiera definicję klasy Interp4Command, modelującej abstrakcyjne polecenie
+ * dla robota mobilnego i metody wirtualne umożliwiające jego realizację.
  */
 
 /*!
  * \brief Modeluje abstrakcyjne polecenie dla robota mobilnego
  *
- *  Klasa modeluje ...
+ *  Klasa modeluje abstrakcyjne, ogólne polecenie dla robota mobilnego.
+ *  Umożliwia wykonanie dowolnego polecenia, poprzez wykorystanie metod wirtualnych,
+ *  uszczególnionych w klasach dziedziczących po niej.
+ *
  */
  class Interp4Command {
   public:
    /*!
     * \brief Destruktor wirtualny ze wzgledu na klasy pochodne
     *
-    *  
     */
    virtual ~Interp4Command() {}
    /*!
-    * \brief
+    * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów).
     */
    virtual void PrintCmd() const = 0;
    /*!
-    * \brief
+    * \brief Wyświetla składnię polecenia.
     */
    virtual void PrintSyntax() const = 0;
    /*!
-    * \brief
+    * \brief Wyświetla nazwę polecenia.
     */
    virtual const char* GetCmdName() const = 0;
    /*!
-    * \brief
+    * \brief Wykonuje polecenie oraz wizualizuje jego realizację.
     */
-   virtual bool ExecCmd(  DronPose  *pRobPose,  Visualization *pVis  ) const = 0;
+   virtual bool ExecCmd( MobileObj *pMobObj, int Socket ) const = 0;
    /*!
-    * \brief
+    * \brief Czyta wartości parametrów danego polecenia.
     */
    virtual bool ReadParams(std::istream& Strm_CmdsList) = 0;
  };

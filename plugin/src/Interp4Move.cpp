@@ -54,7 +54,7 @@ const char* Interp4Move::GetCmdName() const
 /*!
  *
  */
-bool Interp4Move::ExecCmd( DronPose     *pRobPose,  Visualization *pVis) const
+bool Interp4Move::ExecCmd( MobileObj  *pMobObj, int Socket) const
 {
   /*
    *  Tu trzeba napisać odpowiedni kod.

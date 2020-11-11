@@ -13,22 +13,39 @@
  * \file
  * \brief Definicja klasy Interp4Set
  *
- * Plik zawiera definicję klasy Interp4Set ...
+ * Plik zawiera definicję klasy Interp4Set ustawiającej robota na zadanej pozycji.
  */
 
 /*!
  * \brief Modeluje polecenie dla robota mobilnego, które ustawia go na zadanej pozycji
  *
- *  Klasa modeluje ...
+ *  Klasa modeluje polecenie, ustawiające robota na zadanej pozycji, zdefiniowanej przez
+ *  podane wymiary X i Y oraz kąt obrotu wokół osi OZ
  */
 class Interp4Set: public Interp4Command {
-  /*
-   *  Tu należy zdefiniować pola, które są niezbędne
-   *  do przechowywania wartości parametrów danego polecenia.
+  /*!
+   *  \brief Nazwa robota
+   *
+   *  Nazwa robota mobilnego, który ma być ustawiony na zadanej pozycji
    */
   std::string _ParName;
+  /*!
+   *  \brief Współrzędna X [m]
+   *
+   *  Współrzędna X, określająca ustawienie robota, wyrażona w metrach
+   */
   double  _PosX_m;
+  /*!
+   *  \brief Współrzędna Y [m]
+   *
+   *  Współrzędna Y, określająca ustawienie robota, wyrażona w metrach
+   */
   double  _PosY_m;
+  /*!
+   *  \brief Rotacja OZ [deg]
+   *
+   *  Orientacja robota w stopniach, wyrażona jako kąt obrotu wokół osi OZ
+   */
   double  _rotZ_deg;
  public:
   /*!
@@ -50,7 +67,7 @@ class Interp4Set: public Interp4Command {
   /*!
    * \brief Wykonuje polecenie oraz wizualizuje jego realizację
    */
-  virtual bool ExecCmd( DronPose  *pRobPose,   Visualization *pVis) const;
+  virtual bool ExecCmd( MobileObj  *pMobObj, int Socket) const;
   /*!
    * \brief Czyta wartości parametrów danego polecenia
    */

@@ -10,24 +10,37 @@
 
 /*!
  * \file
- * \brief Definicja klasy Interp4Fly
+ * \brief Definicja klasy Interp4Move
  *
- * Plik zawiera definicję klasy Interp4Fly ...
+ * Plik zawiera definicję klasy Interp4Move, modelującej polecenie ruchu
+ * robota.
  */
 
 /*!
  * \brief Modeluje polecenie dla robota mobilnego, które wymusza jego ruch do przodu
  *
- *  Klasa modeluje ...
+ *  Klasa modeluje polecenie dla robota mobilnego, wymuszające jego ruch naprzód
+ *  o zadany dystans przy zadanej prędkości
  */
 class Interp4Move: public Interp4Command {
-  /*
-   *  Tu należy zdefiniować pola, które są niezbędne
-   *  do przechowywania wartości parametrów danego polecenia.
-   *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
+  /*!
+   *  \brief Nazwa robota
+   *
+   *  Nazwa robota mobilnego, który ma się poruszyć
    */
   std::string  _ParName;
+
+  /*!
+   *  \brief Prędkość ruchu w m/s
+   *
+   *  Prędkość z jaką ma poruszać się wybrany robot, podana w m/s
+   */
   double  _Speed_mps;
+  /*!
+   *  \brief Dystans ruchu w m
+   *
+   *  Dystans jaki pokonać ma robot, podany w metrach
+   */
   double  _Dist_m;
  public:
   /*!
@@ -49,7 +62,7 @@ class Interp4Move: public Interp4Command {
   /*!
    * \brief Wykonuje polecenie oraz wizualizuje jego realizację
    */
-  virtual bool ExecCmd( DronPose  *pRobPose,   Visualization *pVis) const;
+  virtual bool ExecCmd(MobileObj  *pMobObj, int Socket) const;
   /*!
    * \brief Czyta wartości parametrów danego polecenia
    */

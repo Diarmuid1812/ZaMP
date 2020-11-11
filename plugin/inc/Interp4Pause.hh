@@ -13,19 +13,21 @@
  * \file
  * \brief Definicja klasy Interp4Pause
  *
- * Plik zawiera definicję klasy Interp4Fly ...
+ * Plik zawiera definicję klasy Interp4Pause, modelującej polecenie zatrzymania
+ * się wszystkich robotów mobilnych na scenie symulacji
  */
 
 /*!
  * \brief Modeluje polecenie dla sceny, wymuszające zatrzymanie wszystkich obiektów
  *
- *  Klasa modeluje ...
+ *  Klasa modeluje polecenie, wymuszające zatrzymanie się wszyctkich robotów
+ *  mobilnych, znajdujących się na scenie
  */
 class Interp4Pause: public Interp4Command {
-  /*
-   *  Tu należy zdefiniować pola, które są niezbędne
-   *  do przechowywania wartości parametrów danego polecenia.
-   *  Ponieżej zdefiniowane jest tylko jedno pole jako przykład.
+  /*!
+   *  \brief Czas zatrzymania w ms
+   *
+   *  Czas na jaki mają się zatrzymać wszystkie obiekty, podany w milisekundach
    */
   double  _delay_ms;
  public:
@@ -48,7 +50,7 @@ class Interp4Pause: public Interp4Command {
   /*!
    * \brief Wykonuje polecenie oraz wizualizuje jego realizację
    */
-  virtual bool ExecCmd( DronPose  *pRobPose,   Visualization *pVis) const;
+  virtual bool ExecCmd( MobileObj  *pMobObj, int Socket) const;
   /*!
    * \brief Czyta wartości parametrów danego polecenia
    */

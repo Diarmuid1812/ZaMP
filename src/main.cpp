@@ -28,7 +28,7 @@ bool ExecPreprocesor(const   char * NazwaPliku, istringstream & IStrm4Cmds )
   return pclose(pProc) == 0;
 }
 
-bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet)//Interp4Command &rInterp
+bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet)
 {
   string CmdKey;
 
@@ -55,58 +55,30 @@ bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet)//Interp4C
     delete pInterp;
   }
   return true;
-  /*if(CmdKey == "Fly"){
-    if(!rInterp.ReadParams(rIStrm)) return false;
-    cout << "------Parametry:--------" << endl;
-    rInterp.PrintCmd();
-    return true;
-  }
-  else{
-    cout << "Nieznana komenda" << endl;
-  }*/
-
 }
 
 int main(int argc, char **argv)
 {
 
   Set4Libinterfaces LibInterfaceSet;
-/*
-  void *pLibHnd_Fly = dlopen("Interp4Fly.so",RTLD_LAZY);
 
-  Interp4Command *(*pCreateCmd_Fly)(void);
-  void *pFun;
-
-
-  if (!pLibHnd_Fly) {
-    cerr << "!!! Brak biblioteki: Interp4Fly.so" << endl;
-    return 1;
-  }
-
-  pFun = dlsym(pLibHnd_Fly,"CreateCmd");
-  if (!pFun) {
-    cerr << "!!! Nie znaleziono funkcji CreateCmd" << endl;
-    return 1;
-  }
-
-  pCreateCmd_Fly = *reinterpret_cast<Interp4Command* (**)(void)>(&pFun);
-
-  Interp4Command *pInterp = pCreateCmd_Fly();
-*/
   try{
-    shared_ptr<LibInterface> pLibMoveI = make_shared<LibInterface>("Interp4Move.so");
-    shared_ptr<LibInterface> pLibPauseI = make_shared<LibInterface>("Interp4Pause.so");
-    shared_ptr<LibInterface> pLibRotateI = make_shared<LibInterface>("Interp4Rotate.so");
-    shared_ptr<LibInterface> pLibSetI = make_shared<LibInterface>("Interp4Set.so");
+      string LibNames[4] = {"Interp4Move.so","Interp4Pause.so","Interp4Rotate.so","Interp4Set.so"};
 
-
-
-  LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibMoveI->GetCName(),pLibMoveI));
-  LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibPauseI->GetCName(),pLibPauseI));
-  LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibRotateI->GetCName(),pLibRotateI));
-  LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibSetI->GetCName(),pLibSetI));
-
-
+      for(int i=0; i<4;++i){
+        shared_ptr<LibInterface> pLibI = make_shared<LibInterface>(LibNames[i]);
+        LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibI->GetCmdName(),pLibI));
+      }
+    }
+  catch(int e)
+    {
+      cerr << "Wyjątek nr " << e << endl;
+      if(e==LIB_LOAD_EXCEPTION)
+      {
+        cerr << "Nie można wczytać biblioteki" << endl;
+        return 1;
+      }
+    }
   if(argc<2){
     std::cerr << "Too few parameters" <<endl;
     return 1;
@@ -120,28 +92,15 @@ int main(int argc, char **argv)
     return 2;
   }
 
-  cout << IStrm4Cmds.str() << endl;
+  cout << endl << endl << IStrm4Cmds.str() << endl << endl;
 
 
-  if(!ExecActions(IStrm4Cmds, LibInterfaceSet))//*pInterp)
+  if(!ExecActions(IStrm4Cmds, LibInterfaceSet))
   {
     cerr << "Nie można wykonać polecenia!" <<endl;
     return 3;
   }
-/*
-  delete pInterp;
 
-  dlclose(pLibHnd_Fly);
-*/
-}
-catch(int e)
-{
-  cerr << "Wyjątek nr " << e << endl;
-  if(e==LIB_LOAD_EXCEPTION)
-  {
-    cerr << "Nie można wczytać biblioteki" << endl;
-    return 1;
-  }
-}
+
   return 0;
 }

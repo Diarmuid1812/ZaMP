@@ -5,7 +5,6 @@ LibInterface::LibInterface(const std::string LibName)
 {
   void *pLibHnd = dlopen(LibName.c_str(),RTLD_LAZY);
 
-  //Interp4Command *(*pCreateCmd)(void);
   void *pFun;
 
   std::cerr << "Ładowanie biblioteki: "   <<LibName<< std::endl;
@@ -22,8 +21,14 @@ LibInterface::LibInterface(const std::string LibName)
 
   _pCreateCmd = *reinterpret_cast<Interp4Command* (**)(void)>(&pFun);
 
-  this->_LibHandler = _pCreateCmd();
-  this->_CmdName=_pCreateCmd()->GetCmdName();
+  this->_LibHandler = pLibHnd;
 
+  Interp4Command * pInterp= _pCreateCmd();
+  this->_CmdName=pInterp->GetCmdName();
+  delete pInterp;
+}
 
+LibInterface::~LibInterface()
+{
+  dlclose(this->_LibHandler);
 }
