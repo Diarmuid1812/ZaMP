@@ -5,8 +5,15 @@
 #include <string>
 #include <cstdio>
 #include <memory>
+#include <thread>
 #include "Interp4Command.hh"
 #include "Set4Libinterfaces.hh"
+#include "XML_ReadFile.hh"
+#include "Configuration.hh"
+#include "Port.hh"
+#include "Scene.hh"
+#include "ServerConnection.hh"
+
 
 using namespace std;
 
@@ -28,7 +35,7 @@ bool ExecPreprocesor(const   char * NazwaPliku, istringstream & IStrm4Cmds )
   return pclose(pProc) == 0;
 }
 
-bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet)
+bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet, Scene * pScn)
 {
   string CmdKey;
 
@@ -51,6 +58,13 @@ bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet)
     }
     cout << "------Parametry:--------" << endl;
     pInterp->PrintCmd();
+
+    if(!pInterp->ExecCmd(pScn))
+    {
+      cout << "Błąd wykonywania polecenia" << endl;
+      delete pInterp;
+      return false;
+    }
     cout << endl;
     delete pInterp;
   }
@@ -62,11 +76,19 @@ int main(int argc, char **argv)
 
   Set4Libinterfaces LibInterfaceSet;
 
-  try{
-      string LibNames[4] = {"Interp4Move.so","Interp4Pause.so","Interp4Rotate.so","Interp4Set.so"};
+  Configuration   Config;
 
-      for(int i=0; i<4;++i){
-        shared_ptr<LibInterface> pLibI = make_shared<LibInterface>(LibNames[i]);
+  if (!ReadFile("config/config.xml", Config))
+  {
+    return 1;
+  }
+
+  try{
+      std::vector<string> LibList = Config.getLibList();
+
+
+      for(const string& sLibNameI : LibList){
+        shared_ptr<LibInterface> pLibI = make_shared<LibInterface>(sLibNameI);
         LibInterfaceSet.insert(pair<string,shared_ptr<LibInterface>>(pLibI->GetCmdName(),pLibI));
       }
     }
@@ -95,12 +117,42 @@ int main(int argc, char **argv)
   cout << endl << endl << IStrm4Cmds.str() << endl << endl;
 
 
-  if(!ExecActions(IStrm4Cmds, LibInterfaceSet))
+  cout << "Port: " << PORT << endl;
+  Scene               Scn;
+  int                 Socket4Sending;
+
+  Scn.configureScene(Config);
+  shared_ptr<MobileObj> pObj;
+  std::cout << "Check" << Scn.FindMobileObject("obj1", pObj) << '\n';
+
+  if (!OpenConnection(Socket4Sending))
   {
-    cerr << "Nie można wykonać polecenia!" <<endl;
+    cerr << "Nie można połączyć z serwerem!" << endl;
     return 3;
   }
 
+  Sender   ClientSender(Socket4Sending,&Scn);
+
+  thread   Thread4Sending(Fun_CommunicationThread,&ClientSender);
+
+  if(!ExecActions(IStrm4Cmds, LibInterfaceSet, &Scn))
+  {
+    cerr << "Nie można wykonać polecenia!" <<endl;
+    return 4;
+  }
+
+
+
+  //-------------------------------------
+  // Należy pamiętać o zamknięciu połączenia.
+  // Bez tego serwer nie będzie reagował na
+  // nowe połączenia.
+  //
+  Send(Socket4Sending,"Close\n");
+  ClientSender.CancelCountinueLooping();
+  Thread4Sending.join();
+  close(Socket4Sending);
+  //-------------------------------------
 
   return 0;
 }

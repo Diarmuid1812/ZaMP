@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 #include "Interp4Set.hh"
 
 using std::cout;
@@ -54,11 +55,38 @@ const char* Interp4Set::GetCmdName() const
 /*!
  *
  */
-bool Interp4Set::ExecCmd( MobileObj  *pMobObj, int Socket) const
+bool Interp4Set::ExecCmd(Scene * pScn) const
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+  pScn->UnlockAccess();
+  pScn->LockAccess(); // Zamykamy dostęp do sceny, gdy wykonujemy
+                           // modyfikacje na obiekcie.
+  std::shared_ptr<MobileObj> pObj;
+  if(!pScn->FindMobileObject(_ParName, pObj))
+  {
+    pScn->UnlockAccess();
+    std::cerr << "Nie znaleziono obiektu: " <<'\"'<< _ParName <<'\"' << " !!!" << std::endl;
+    return false;
+  }
+  Vector3D positionVector;
+  positionVector[0]=_PosX_m;
+  positionVector[1]=_PosY_m;
+  positionVector[2]=pObj->GetPosition_m()[2];
+  pObj->SetPosition_m(positionVector);
+  pObj->SetAng_Yaw_deg(_rotZ_deg);
+  /*if (!pObj->SetPosition_m(positionVector))
+  {
+    pScn->UnlockAccess();
+    return false;
+  }
+  if (!pObj->SetAng_Yaw_deg(_rotZ_deg))
+  {
+    pScn->UnlockAccess();
+    return false;
+  }*/
+  pScn->MarkChange();
+  pScn->UnlockAccess();
+  usleep(300000);
+
   return true;
 }
 

@@ -3,6 +3,7 @@
 
 
 #include <string>
+#include <sstream>
 #include "Vector3D.hh"
 
 
@@ -57,6 +58,22 @@
 	* że współrzędne wyrażone są w metrach.
         */
        Vector3D  _Position_m;
+
+       /*!
+        * \brief Współrzędne aktualnej pozycji obiektu.
+	*
+	* Współrzędne aktualnej pozycji obiektu. Przyjmuje się,
+	* że współrzędne wyrażone są w metrach.
+        */
+       Vector3D  _Size_m;
+
+       /*!
+        * \brief Kolor obiektu.
+	      *
+	      *
+        */
+       int _ColourRGB[3];
+
 
        /*!
         * \brief Nazwa obiektu, która go indentyfikuje.
@@ -115,7 +132,7 @@
        * w trybie tylko do odczytu.
        * Domyślnie przyjmuje się, że jest to geometryczny środek bryły.
        */
-       const Vector3D & GetPositoin_m() const { return _Position_m; }
+       const Vector3D & GetPosition_m() const { return _Position_m; }
       /*!
        * \brief Udostępnia współrzędne położenia obiektu w trybie modyfikacji.
        *
@@ -132,8 +149,55 @@
        * \param[in] rPos_m - współrzędne nowgo położenia. Przyjmuje się,
        *                     że są one wyrażone w metrach.
        */
-       void SetPosition_m(const Vector3D &rPos_m) { _Position_m = rPos_m; }
+       void SetPosition_m(const Vector3D &rPos_m) {std::cout << "Pos" << '\n'; _Position_m = rPos_m; }
 
+       /*!
+        * \brief Zmienia współrzędne położenia obiektu.
+        *
+        * Zmienia współrzędne punktu, który definiuje położenia obiektu.
+        * Domyślnie przyjmuje się, że jest to geometryczny środek bryły.
+        * \param[in] rPos_m - współrzędne nowgo położenia. Przyjmuje się,
+        *                     że są one wyrażone w metrach.
+        */
+        void SetSize_m(const Vector3D &rParamSize_m) {std::cout << "Siz" << '\n'; _Size_m = rParamSize_m; }
+
+        /*!
+         * \brief Udostępnia współrzędne położenia obiektu w trybie tylko do odczytu.
+         *
+         * Udostępnia współrzędne punktu, który definiuje położenia obiektu
+         * w trybie tylko do odczytu.
+         * Domyślnie przyjmuje się, że jest to geometryczny środek bryły.
+         */
+         const Vector3D & GetSize_m() const { return _Size_m; }
+
+       /*!
+        * \brief Zmienia współrzędne położenia obiektu.
+        *
+        * Zmienia współrzędne punktu, który definiuje położenia obiektu.
+        * Domyślnie przyjmuje się, że jest to geometryczny środek bryły.
+        * \param[in] rPos_m - współrzędne nowgo położenia. Przyjmuje się,
+        *                     że są one wyrażone w metrach.
+        */
+        void SetColour(const std::string & rColour) {
+            std::istringstream streamColour(rColour);
+
+            streamColour >> _ColourRGB[0] >>_ColourRGB[1] >> _ColourRGB[2];
+        }
+
+        /*!
+         * \brief Zmienia współrzędne położenia obiektu.
+         *
+         * Zmienia współrzędne punktu, który definiuje położenia obiektu.
+         * Domyślnie przyjmuje się, że jest to geometryczny środek bryły.
+         * \param[in] rPos_m - współrzędne nowgo położenia. Przyjmuje się,
+         *                     że są one wyrażone w metrach.
+         */
+         void SetColour(char * sColour) {
+           std::cout << "Col" << '\n';
+           std::istringstream streamColour;
+           streamColour.str(sColour);
+           streamColour >> _ColourRGB[0] >>_ColourRGB[1] >> _ColourRGB[2];
+         }
 
       /*!
        * \brief Zmienia nazwę obiektu.
@@ -144,10 +208,26 @@
        void SetName(const char* sName) { _Name = sName; }
        /*!
         * \brief Udostępnia nazwę obiektu.
-	*
-	* Udostępnia nazwę obiektu w trybie tylko do odczytu.
+	      *
+	      * Udostępnia nazwę obiektu w trybie tylko do odczytu.
         */
        const std::string & GetName() const { return _Name; }
+
+
+       std::string GetStateDesc()
+       {
+         std::ostringstream descrStream;
+
+         descrStream << "Cube"
+         <<"  " <<_Size_m[0]<< " " <<_Size_m[1]<< " " <<_Size_m[2]
+         <<"  " <<_Position_m[0]<< " " <<_Position_m[1]<< " " <<_Position_m[2]
+         <<"  " <<GetAng_Roll_deg()<< " " <<GetAng_Pitch_deg()<< " " <<GetAng_Yaw_deg()
+         <<"  " <<_ColourRGB[0]<< " " <<_ColourRGB[1]<< " " << _ColourRGB[2]
+         << std::endl;
+
+         return descrStream.str();
+       }
+
     };
 
 

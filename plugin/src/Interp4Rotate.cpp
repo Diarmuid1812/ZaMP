@@ -54,11 +54,40 @@ const char* Interp4Rotate::GetCmdName() const
 /*!
  *
  */
-bool Interp4Rotate::ExecCmd( MobileObj  *pMobObj, int Socket) const
+bool Interp4Rotate::ExecCmd(Scene * pScn) const
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+
+
+  std::shared_ptr<MobileObj> pObj;
+  if(!pScn->FindMobileObject(_ParName,pObj))
+  {
+    std::cerr << "Nie znaleziono obiektu: " <<'\"'<< _ParName <<'\"' << " !!!" << std::endl;
+    return false;
+  }
+
+  //Kąt docelowy [deg]
+  double destinationAng_d=pObj->GetAng_Yaw_deg() + _angleRot_deg;
+  //Wykonany obrót [deg]
+  double rotationMade_d=0;
+
+  while (true) {
+    pScn->LockAccess(); // Zamykamy dostęp do sceny, gdy wykonujemy
+                             // modyfikacje na obiekcie.
+    rotationMade_d+=_angVelocity_degps;
+    pObj->SetAng_Yaw_deg(pObj->GetAng_Yaw_deg()+0.1*_angVelocity_degps);
+    //Osiągnięto cel, zapobiega przekroczeniu
+    if (rotationMade_d > _angleRot_deg) {
+      pObj->SetAng_Yaw_deg(destinationAng_d);
+      pScn->MarkChange();
+      pScn->UnlockAccess();
+      break;
+    }
+    pScn->MarkChange();
+    pScn->UnlockAccess();
+    usleep(100000);
+  }
+
+  usleep(300000);
   return true;
 }
 

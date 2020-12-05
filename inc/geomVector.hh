@@ -43,15 +43,15 @@ namespace geom {
    * przez stałą \link geomVector.hh::ERR_DOUBLE ERR_DOUBLE\endlink.
    * \param[in] Val - wartość liczbowa, której znak ma być sprawdzony.
    * \retval 1 - gdy Val > \link geomVector.hh::ERR_DOUBLE ERR_DOUBLE\endlink,
-   * \retval 0 - gdy Val jest w przedziale 
+   * \retval 0 - gdy Val jest w przedziale
    *             [\link geomVector.hh::ERR_DOUBLE -ERR_DOUBLE\endlink,
    *              \link geomVector.hh::ERR_DOUBLE ERR_DOUBLE\endlink],
    * \retval -1 - gdy Val < \link geomVector.hh::ERR_DOUBLE -ERR_DOUBLE\endlink,
-   * 
+   *
    */
   inline
   int Sgn(double Val) { return Val > ERR_DOUBLE ? 1 : Val < -ERR_DOUBLE ? -1 : 0; }
-  
+
 /*!
  * \brief Model wektora N-wymiarowego
  *
@@ -101,7 +101,7 @@ namespace geom {
    Type operator [](unsigned int Ind) const { assert(Ind < Size); return _Coord[Ind]; }
 
 
-    /*! 
+    /*!
      *  \brief Dostęp do wybranej składowej wektora.
      *
      *  Operacja implementuje sumę wektorów.
@@ -111,7 +111,7 @@ namespace geom {
      */
     Vector<Type,Size>  operator  + (Vector<Type,Size> const &rSkl2) const;
 
-    /*! 
+    /*!
      *  \brief Dodaje wektora i przypisuje wynik sumy.
      *
      *  Dodaje współrzędne wektora do wektora reprezentowanego przez obiekt,
@@ -121,7 +121,7 @@ namespace geom {
      */
     Vector<Type,Size> &operator += (Vector<Type,Size> const &rSkl2);
 
-    /*! 
+    /*!
      * \brief Różnica dwóch wektorów.
      *
      *  Operacja implementuje różnicę wektorów.
@@ -131,7 +131,7 @@ namespace geom {
      */
    Vector<Type,Size>  operator  - (Vector<Type,Size> const &rOdj) const;
 
-    /*! 
+    /*!
      * \brief Różnica dwóch wektorów i przypisanie wyniku.
      *
      *  Operacja implementuje różnicę wektorów i przypisanie wyniku
@@ -139,7 +139,7 @@ namespace geom {
      *
      *  \param  rOdj - odjemnik.
      *  \retval *this - referencja do samego siebie.
-     *                  Obiekt przyjmuje nową wartość będącą 
+     *                  Obiekt przyjmuje nową wartość będącą
      *                 różnicą dwóch wektorów \b *this i \e V.
      */
    Vector<Type,Size> &operator -= (Vector<Type,Size> const &rOdj);
@@ -275,18 +275,18 @@ namespace geom {
      * Zakłada się, że ścianki prostopadłościanu są równoległe do jednej
      * z płaszczyzn kartezjańskiego układu współrzędnych OXY.
      * \param Min - zawiera współrzędne wierzchołka, którego składowe
-     *              mają minimalne wartości spośród składowych tego 
+     *              mają minimalne wartości spośród składowych tego
      *              samego typu wszystkich wierzchołków
      *              tego prostopadłościanu.
      * \param Max - zawiera współrzędne wierzchołka, którego składowe
-     *              mają maksymalne wartości spośród składowych tego 
+     *              mają maksymalne wartości spośród składowych tego
      *              samego typu wszystkich wierzchołków
      *              tego prostopadłościanu.
      *              prostopadłościanu.
      * \return  true  - jeśli punkt jest wewnątrz prostopadłościanu.
      * \return  false - w przypadku przeciwnym.
      */
-   bool IsInside(Vector<Type,Size> const &Min, Vector<Type,Size> Max) const;
+   bool IsInside(Vector<Type,Size> const &Min, Vector<Type,Size> const &Max) const;
 
     /*!
      * \brief Normalizuje wektor
@@ -296,14 +296,14 @@ namespace geom {
      * Ewentualne odchyłki są związane z błędami obliczeń
      * będących następstwem skończonej reprezentacji liczb rzeczywistych.
      */
-   void Normalize() 
+   void Normalize()
      { Type d = Length(); for (Type &Crd : _Coord) Crd /= d; }
  };
 
- 
+
  template<typename Type, unsigned int Size>
  inline
- bool Vector<Type,Size>::IsInside(Vector<Type,Size> const &Min, Vector<Type,Size> Max) const
+ bool Vector<Type,Size>::IsInside(Vector<Type,Size> const &Min, Vector<Type,Size> const &Max) const
  {
    for (unsigned Ind = 0; Ind < Size; ++Ind) {
      if (!IsInside(Ind,Min[Ind],Max[Ind])) return false;
@@ -328,7 +328,7 @@ namespace geom {
    for (unsigned int Ind = 0; Ind < Size; ++Ind) _Coord[Ind] += rSkl2[Ind];
    return *this;
  }
-  
+
 
  template<typename Type, unsigned int Size>
  inline
@@ -368,7 +368,7 @@ namespace geom {
  inline
  Vector<Type,Size> Vector<Type,Size>::operator * (Type Mnoznik) const
  {
-   return Vector<Type,Size>(*this) *= Mnoznik;  
+   return Vector<Type,Size>(*this) *= Mnoznik;
  }
 
 
@@ -380,13 +380,13 @@ namespace geom {
    for (Type Crd : _Coord ) Crd /= Digit;
    return *this;
  }
-  
+
 
  template<typename Type, unsigned int Size>
  inline
  Vector<Type,Size> Vector<Type,Size>::operator / (Type Dzielnik) const
  {
-   return Vector<Type,Size>(*this) /= Dzielnik;    
+   return Vector<Type,Size>(*this) /= Dzielnik;
  }
 
 
@@ -405,7 +405,7 @@ namespace geom {
  Type Vector<Type,Size>::operator & (Vector<Type,Size> const &rVec) const
  {
    Type Res = 0;
-   for (unsigned int Idx = 0; Idx < Size; ++Idx) Res += _Coord[Idx] * rVec[Idx];  
+   for (unsigned int Idx = 0; Idx < Size; ++Idx) Res += _Coord[Idx] * rVec[Idx];
    return Res;
  }
 

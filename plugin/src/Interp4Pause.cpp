@@ -54,11 +54,14 @@ const char* Interp4Pause::GetCmdName() const
 /*!
  *
  */
-bool Interp4Pause::ExecCmd( MobileObj  *pMobObj, int Socket) const
+bool Interp4Pause::ExecCmd(Scene * pScn) const
 {
-  /*
-   *  Tu trzeba napisać odpowiedni kod.
-   */
+
+  pScn->LockAccess(); // Uniemożliwienie zmian w trakcie zamrożenia
+  usleep(_delay_ms*1000);
+  pScn->UnlockAccess();
+  usleep(300000);
+
   return true;
 }
 
