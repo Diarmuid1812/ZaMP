@@ -12,7 +12,7 @@
  *  wskaźników dzielonych do klasy LibInterface
  */
 /*!
- *  \brief Typ danych Set4Libinterfaces
+ *  \brief Typ danych dla zestawu bibliotek.
  *
  *  Typ danych Set4Libinterfaces, realizujący mapę wskaźników dzielonych na interfejsy
  *  wczytywanych dynamicznie bibliotek, jako klucz przyjmującą nazwy poleceń dla robota
@@ -21,10 +21,4 @@
 
 typedef std::map<const std::string, std::shared_ptr<LibInterface>> Set4Libinterfaces;
 
-/*
-class Set4Libinterfaces : public std::map<const std::string, std::shared_ptr<Libinterace>>
-{
-
-};
-*/
 #endif //SET_4_LIBINTERFACES

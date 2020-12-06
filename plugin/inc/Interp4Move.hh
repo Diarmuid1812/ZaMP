@@ -21,7 +21,7 @@
  * \brief Modeluje polecenie dla robota mobilnego, które wymusza jego ruch do przodu
  *
  *  Klasa modeluje polecenie dla robota mobilnego, wymuszające jego ruch naprzód
- *  o zadany dystans przy zadanej prędkości
+ *  o zadany dystans przy zadanej prędkości.
  */
 class Interp4Move: public Interp4Command {
   /*!
@@ -45,37 +45,62 @@ class Interp4Move: public Interp4Command {
   double  _Dist_m;
  public:
   /*!
-   * \brief
+   * \brief Konstruktor klasy
+   *
+   * Konstruktor klasy. Inicjalizuje parametry liczbowe zerowymi wartościami.
    */
   Interp4Move();
   /*!
-   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
+   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów).
+   *
+   * Wyświetla całe wczytane polecenie razem z wartościami parametrów ruchu.
    */
   virtual void PrintCmd() const;
   /*!
-   * \brief Wyświetla składnię polecenia
+   * \brief Wyświetla składnię polecenia.
+   *
+   * Wyświetla składnię polecenia Move.
    */
   virtual void PrintSyntax() const;
   /*!
-   * \brief Wyświetla nazwę polecenia
+   * \brief Wyświetla nazwę polecenia.
+   *
+   * Wyświetla nazwę bieżącego polecenia.
+   * \return - Nazwa polecenia.
    */
   virtual const char* GetCmdName() const;
   /*!
-   * \brief Wykonuje polecenie oraz wizualizuje jego realizację
+   * \brief Wykonuje polecenie Move.
+   *
+   * Wykonuje polecenie ruchu oraz zaznacza że wprowadzono zmiany,
+   * co pozwala na wywołanie wizualizacji.
+   * \param[in,out] pScn - wskażnik na scenę,
+   *                       dla której wykonywane jest polecenie.
+   * \retval true - jeśli wykonanie się powiodło.
+   * \retval false - w przeciwnym wypadku.
    */
   virtual bool ExecCmd(Scene * pScn) const;
   /*!
-   * \brief Czyta wartości parametrów danego polecenia
+   * \brief Czyta wartości parametrów danego polecenia.
+   *
+   * Wczytuje wartości parametrów ruchu dla polecenia.
+   * \param[in] Strm_CmdsList - strumień do wczytania parametrów.
+   * \retval true - jeśli wczyttwanie się powiodło.
+   * \retva false - w przeciwnym wypadku.
    */
   virtual bool ReadParams(std::istream& Strm_CmdsList);
   /*!
-   * \brief Wyświetla wartości wczytanych parametrów
+   * \brief Wyświetla wartości parametrów polecenia.
+   *
+   * Wyświetla wartości parametrów ruchu.
    */
   virtual void PrintParams() {}
   /*!
-   * \brief
+   * \brief Tworzy instancję interpretera polecenia
    *
-   *  Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * Tworzy instancję interpretera dla polecenia "Move".
+   * Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * \return - instancja interpretera
    */
   static Interp4Command* CreateCmd();
  };

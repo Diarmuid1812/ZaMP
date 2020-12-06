@@ -19,6 +19,17 @@ using namespace std;
 
 #define LINE_SIZE 500
 
+/*!
+ * \brief Wykonuje preprocesor na podanym pliku.
+ *
+ * Funkcja wpisuje do zawartość podanego pliku, po interpretacji przez
+ * preprocesor języka C.
+ * \param[in] NazwaPliku - Nazwa pliku do interpratacji.
+ * \param[out] IStrm4Cmds - Strumień, do któregoi wczytywana jest zinterpretowana zawartość.
+ * \retval true - jeśli preprocesor został wykonany poprawnie, a plik został zamknięy.
+ * \retval false - przy niepowodzeniu wykonania.
+ */
+
 bool ExecPreprocesor(const   char * NazwaPliku, istringstream & IStrm4Cmds )
 {
   string Cmd4Preproc = "cpp -P ";
@@ -35,6 +46,19 @@ bool ExecPreprocesor(const   char * NazwaPliku, istringstream & IStrm4Cmds )
   return pclose(pProc) == 0;
 }
 
+/*!
+ * \brief Wykonuje polecenia ze strumienia.
+ *
+ * Funkcja wykonuje polecenia wczytane ze strumienia, wykorzystując
+ * do tego odpowiednią bibliotekę.
+ * \param[in] rIStrm - Strumień zawierający polecenie.
+ * \param[in] LibInterfaceSet - zestaw bibliotek,
+ *                              umożliwiających wykonanie polecenia.
+ * \param[in,out] pScn - wskażnik na scenę,
+ *                       dla której wykonywane jest polecenie.
+ * \retval true - jeśli polecenie zostało wykonane poprawnie.
+ * \retval false - przy niepowodzeniu wykonania.
+ */
 bool ExecActions(istream & rIStrm, Set4Libinterfaces &LibInterfaceSet, Scene * pScn)
 {
   string CmdKey;

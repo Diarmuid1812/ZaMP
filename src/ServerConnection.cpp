@@ -33,10 +33,6 @@ void Sender::Watching_and_Sending() {
       msg =  pObj->GetStateDesc();
       Send(_Socket,msg.c_str());
       cout << msg.c_str();
-      //cout << pObj->GetStateDesc();
-      //Send(_Socket,pObj->GetStateDesc());
-      //Send(_Socket,"Cube  2 2.5 1.1  2.5 5 5   0 0 0  105 0 255\n");
-      //Send(_Socket,pObj->GetStateDesc());
     }
     Send(_Socket,"Display\n"); // To jest konieczne, aby zobaczyć zmiany
     cout << "Display\n";

@@ -43,38 +43,63 @@ class Interp4Rotate : public Interp4Command {
   */
  double  _angleRot_deg;
  public:
-  /*!
-   * \brief
-   */
+   /*!
+    * \brief Konstruktor klasy
+    *
+    * Konstruktor klasy. Inicjalizuje parametry liczbowe zerowymi wartościami.
+    */
   Interp4Rotate();
   /*!
-   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
+   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów).
+   *
+   * Wyświetla całe wczytane polecenie razem z wartościami parametrów ruchu.
    */
   virtual void PrintCmd() const;
   /*!
-   * \brief Wyświetla składnię polecenia
+   * \brief Wyświetla składnię polecenia.
+   *
+   * Wyświetla składnię polecenia Rotate.
    */
   virtual void PrintSyntax() const;
   /*!
-   * \brief Wyświetla nazwę polecenia
+   * \brief Wyświetla nazwę polecenia.
+   *
+   * Wyświetla nazwę bieżącego polecenia.
+   * \return - Nazwa polecenia.
    */
   virtual const char* GetCmdName() const;
   /*!
-   * \brief Wykonuje polecenie oraz wizualizuje jego realizację
+   * \brief Wykonuje polecenie Rotate.
+   *
+   * Wykonuje polecenie ruchu oraz zaznacza że wprowadzono zmiany,
+   * co pozwala na wywołanie wizualizacji.
+   * \param[in,out] pScn - wskażnik na scenę,
+   *                       dla której wykonywane jest polecenie.
+   * \retval true - jeśli wykonanie się powiodło.
+   * \retval false - w przeciwnym wypadku.
    */
   virtual bool ExecCmd(Scene * pScn) const;
   /*!
-   * \brief Czyta wartości parametrów danego polecenia
+   * \brief Czyta wartości parametrów danego polecenia.
+   *
+   * Wczytuje wartości parametrów ruchu obrotowego dla polecenia.
+   * \param[in] Strm_CmdsList - strumień do wczytania parametrów.
+   * \retval true - jeśli wczyttwanie się powiodło.
+   * \retval false - w przeciwnym wypadku.
    */
   virtual bool ReadParams(std::istream& Strm_CmdsList);
   /*!
-   * \brief Wyświetla wartości wczytanych parametrów
+   * \brief Wyświetla wartości parametrów polecenia.
+   *
+   * Wyświetla wartości parametrów ruchu obrotowego.
    */
   virtual void PrintParams() {}
   /*!
-   * \brief
+   * \brief Tworzy instancję interpretera polecenia
    *
-   *  Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * Tworzy instancję interpretera dla polecenia "Rotate".
+   * Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * \return - instancja interpretera.
    */
   static Interp4Command* CreateCmd();
  };

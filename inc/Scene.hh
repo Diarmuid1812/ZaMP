@@ -1,5 +1,5 @@
-#ifndef SCENE
-#define SCENE
+#ifndef SCENE_HH
+#define SCENE_HH
 
 #include <vector>
 #include <map>
@@ -95,23 +95,6 @@ public:
    * Tworzy i zwraca listę nazw obiektów mobilnych,
    * znajdujących się na scenie.
    * \return - lista obiektów mobilnych
-   *//*
-  const std::vector<std::string> getObjList() const
-  {
-    std::vector<std::string> VectorOfMobObjNames;
-    for (const std::pair<std::string,MobileObj> &rObj : _Set_of_mobile_Objects)
-    {
-      VectorOfMobObjNames.push_back(rObj.first);
-    }
-    return VectorOfMobObjNames;
-  }*/
-
-  /*!
-   * \brief Przekazuje listę obiektów na scenie
-   *
-   * Tworzy i zwraca listę nazw obiektów mobilnych,
-   * znajdujących się na scenie.
-   * \return - lista obiektów mobilnych
    */
   std::vector<std::string> getObjList() const
   {
@@ -123,26 +106,15 @@ public:
     return VectorOfMobObjNames;
   }
 
+  /*!
+   * \brief Wczytuje dane z konfiguracji.
+   *
+   * Wczytuje z konfiguracji zestaw obiektów mobilnych.
+   */
   void configureScene(Configuration & rConf)
   {
     _Set_of_mobile_Objects=rConf.UseSetOfMobObjects();
   }
 };
-/*
-std::shared_ptr<MobileObj> Scene::FindMobileObject(char * sObjName)
-{
-  std::string keyName(sObjName);
-  std::shared_ptr<MobileObj> shPtr2Object = _Set_of_mobile_Objects.find(keyName)->second;
 
-  return shPtr2Object;
-}
-
-
-std::shared_ptr<MobileObj> Scene::FindMobileObject(std::string & rObjName)
-{
-  std::shared_ptr<MobileObj> shPtr2Object = _Set_of_mobile_Objects.find(rObjName)->second;
-
-  return shPtr2Object;
-}
-*/
-#endif //SCENE
+#endif //SCENE_HH

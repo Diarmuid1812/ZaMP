@@ -5,7 +5,7 @@ LibInterface::LibInterface(const std::string LibName)
 {
   void *pLibHnd = dlopen(LibName.c_str(),RTLD_LAZY);
 
-  void *pFun;
+  void *pFunCrea;
 
   std::cerr << "Ładowanie biblioteki: "   <<LibName<< std::endl;
   if (!pLibHnd) {
@@ -13,13 +13,14 @@ LibInterface::LibInterface(const std::string LibName)
     throw LIB_LOAD_EXCEPTION;
   }
 
-  pFun = dlsym(pLibHnd,"CreateCmd");
-  if (!pFun) {
+  pFunCrea = dlsym(pLibHnd,"CreateCmd");
+  if (!pFunCrea) {
     std::cerr << "!!! Nie znaleziono funkcji CreateCmd" << std::endl;
     throw LIB_LOAD_EXCEPTION;
   }
 
-  _pCreateCmd = *reinterpret_cast<Interp4Command* (**)(void)>(&pFun);
+  _pCreateCmd = *reinterpret_cast<Interp4Command* (**)(void)>(&pFunCrea);
+
 
   this->_LibHandler = pLibHnd;
 

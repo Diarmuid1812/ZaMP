@@ -18,8 +18,15 @@
 #include "MobileObj.hh"
 #include "Scene.hh"
 
-using namespace std;
 
+/*!
+ * \file
+ * \brief Zawiera definicję klasy Sender oraz funkcje do komunikacji.
+ *
+ * Plik zawiera klasę Sender i inne funkcje służące do komunikacji z serwerem graficznym.
+ */
+
+using namespace std;
 
 /*!
  * \brief Wysyła napis do serwera poprzez gniazdo sieciowe.

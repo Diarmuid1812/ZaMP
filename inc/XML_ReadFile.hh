@@ -6,6 +6,13 @@
 #include "Configuration.hh"
 
 /*!
+ * \file
+ * \brief Zawiera definicję klasy Sender oraz funkcje do komunikacji.
+ *
+ * Plik zawiera klasę Sender i inne funkcje służące do komunikacji z serwerem graficznym.
+ */
+
+/*!
  * \brief Wczytuje konfigurację z pliku XML
  *
  * Wczytuje z pliku w formacie XML konfigurację programu,

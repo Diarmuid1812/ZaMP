@@ -7,6 +7,7 @@ using std::endl;
 
 extern "C" {
  Interp4Command* CreateCmd(void);
+ const char* GetCmdName(void);
 }
 
 

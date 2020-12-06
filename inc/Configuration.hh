@@ -8,6 +8,17 @@
 #include <memory>
 #include "SetOfMobObjects.hh"
 #include "MobileObj.hh"
+
+/*!
+ * \file
+ * \brief Zawiera definicję klasy Configuration
+ *
+ * Plik zawiera definicję klasy Configuration, przechowującej
+ * konfigurację wczytaną z pliku i pozwalającą ną na dostęp
+ * do nich wewnątrz programu.
+ */
+
+
 /*!
  * \brief Klasa przechowujca konfigurację
  *
@@ -69,6 +80,14 @@ public:
       return _LibNameList;
   }
 
+  /*!
+   * \brief
+   *
+   * Przekazuje referencję do listy obiektów mobilnych.
+   * Umożliwia jej modyfikację oraz skopiowanie jej
+   * na potrzeby wczytania obiektów
+   * \return - Referencja na zbiór obiektów mobilnych.
+   */
   SetOfMobObjects & UseSetOfMobObjects()
   {
     return _SetMobObjects;

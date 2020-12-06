@@ -31,38 +31,64 @@ class Interp4Pause: public Interp4Command {
    */
   double  _delay_ms;
  public:
-  /*!
-   * \brief
-   */
+   /*!
+    * \brief Konstruktor klasy
+    *
+    * Konstruktor klasy. Inicjalizuje parametr liczbowy wartościamą zerową.
+    */
   Interp4Pause();
   /*!
-   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów)
+   * \brief Wyświetla postać bieżącego polecenia (nazwę oraz wartości parametrów).
+   *
+   * Wyświetla całe wczytane polecenie razem z wartościamą czasu wstrzymania.
    */
   virtual void PrintCmd() const;
   /*!
-   * \brief Wyświetla składnię polecenia
+   * \brief Wyświetla składnię polecenia.
+   *
+   * Wyświetla składnię polecenia Pause.
    */
   virtual void PrintSyntax() const;
   /*!
-   * \brief Wyświetla nazwę polecenia
+   * \brief Wyświetla nazwę polecenia.
+   *
+   * Wyświetla nazwę bieżącego polecenia.
+   * \return - Nazwa polecenia.
    */
   virtual const char* GetCmdName() const;
   /*!
-   * \brief Wykonuje polecenie oraz wizualizuje jego realizację
+   * \brief Wykonuje polecenie Pause.
+   *
+   * Wykonuje polecenie zatzrzymania sceny i blokuje
+   * dostęp do niej na podany parametrem czas.
+   * \param[in,out] pScn - wskażnik na scenę,
+   *                       dla której wykonywane jest polecenie.
+   * \retval true - jeśli wykonanie się powiodło.
+   * \retval false - w przeciwnym wypadku.
    */
   virtual bool ExecCmd(Scene * pScn) const;
   /*!
-   * \brief Czyta wartości parametrów danego polecenia
+   * \brief Czyta wartości parametrów danego polecenia.
+   *
+   * Wczytuje wartość parametru czasu zatrzymania.
+   *
+   * \param[in] Strm_CmdsList - strumień do wczytania parametrów.
+   * \param[in,out] pScn - wskażnik na scenę,
+   *                       dla której wykonywane jest polecenie.
    */
   virtual bool ReadParams(std::istream& Strm_CmdsList);
   /*!
-   * \brief Wyświetla wartości wczytanych parametrów
+   * \brief Wyświetla wartości parametrów polecenia.
+   *
+   * Wyświetla wartość parametru czasu zatrzymania.
    */
   virtual void PrintParams() {}
   /*!
-   * \brief
+   * \brief Tworzy instancję interpretera polecenia
    *
-   *  Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * Tworzy instancję interpretera dla polecenia "Pause".
+   * Ta metoda nie musi być zdefiniowna w klasie bazowej.
+   * \return - instancja interpretera
    */
   static Interp4Command* CreateCmd();
  };
